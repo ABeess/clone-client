@@ -7,6 +7,7 @@ import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
 import CourseCard from 'src/sections/@dashboard/courses/CourseCard';
 import CourseFilter from 'src/sections/@dashboard/courses/CourseFilter';
+import CourseRightNav from 'src/sections/@dashboard/courses/CourseRightNav';
 import CourseSearch from 'src/sections/@dashboard/courses/CourseSearch';
 import BlogPostsSearch from 'src/sections/@dashboard/courses/CourseSearch';
 import axiosInstance from 'src/utils/axios';
@@ -29,6 +30,7 @@ export default function PageCourses() {
   const getAllPosts = useCallback(async () => {
     try {
       const response = await axiosInstance.get('/api/blog/posts/all');
+      console.log('getAllPosts :: response', response);
 
       if (isMountedRef.current) {
         console.log(response);
@@ -46,17 +48,16 @@ export default function PageCourses() {
   return (
     <Page title="Courses Page">
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <CourseSearch />
-          <CourseFilter />
-        </Stack>
-
         <Grid container spacing={3}>
-          <Grid item sx={9}>
+          <Grid item xs={8}>
+            <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+              <CourseSearch />
+              <CourseFilter />
+            </Stack>
             <Grid container spacing={3}>
               {(!posts.length ? [...Array(12)] : posts).map((post, index) =>
                 post ? (
-                  <Grid key={post.id} item xs={12} sm={6} md={(index === 0 && 6) || 3}>
+                  <Grid key={post.id} item xs={12} sm={6} md={4}>
                     <CourseCard post={post} index={index} />
                   </Grid>
                 ) : (
@@ -65,8 +66,8 @@ export default function PageCourses() {
               )}
             </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <Typography variant="h1">Tho</Typography>
+          <Grid item xs={4}>
+            <CourseRightNav />
           </Grid>
         </Grid>
       </Container>
