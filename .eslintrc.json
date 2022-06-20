@@ -4,6 +4,7 @@
     "es2021": true
   },
   "extends": [
+    "next/babel",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@next/next/recommended",
@@ -17,10 +18,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@next/eslint-plugin-next"
-  ],
+  "plugins": ["react", "@next/eslint-plugin-next"],
   "rules": {
     "arrow-body-style": 1,
     "react/prop-types": 1,

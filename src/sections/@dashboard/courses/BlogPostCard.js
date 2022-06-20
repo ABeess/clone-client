@@ -36,6 +36,34 @@ BlogPostCard.propTypes = {
 export default function BlogPostCard({ post, index }) {
   const { cover, title, view, comment, share, author, createdAt } = post;
 
+  const latestPost = index === 0 || index === 1 || index === 2;
+
+  // if (isDesktop && latestPost) {
+  //   return (
+  //     <Card
+  //       sx={{
+  //         cursor: 'pointer',
+  //       }}
+  //     >
+  //       <Avatar
+  //         alt={author.name}
+  //         src={author.avatarUrl}
+  //         sx={{
+  //           zIndex: 9,
+  //           top: 24,
+  //           left: 24,
+  //           width: 40,
+  //           height: 40,
+  //           position: 'absolute',
+  //         }}
+  //       />
+  //       <CourseContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} index={index} />
+  //       <OverlayStyle />
+  //       <Image alt="cover" src={cover} sx={{ height: 360 }} />
+  //     </Card>
+  //   );
+  // }
+
   return (
     <Card>
       <Box sx={{ position: 'relative' }}>
