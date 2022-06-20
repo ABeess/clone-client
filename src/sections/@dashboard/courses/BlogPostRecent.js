@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 // @mui
 import { Grid, Typography } from '@mui/material';
 //
-import BlogPostCard from './BlogPostCard';
+import BlogPostCard from './CourseCard';
 
 // ----------------------------------------------------------------------
 

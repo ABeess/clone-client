@@ -10,7 +10,7 @@ BlogPostsSort.propTypes = {
   onSort: PropTypes.func,
 };
 
-export default function BlogPostsSort({ query, options, onSort }) {
+export default function BlogPostsSort({ query, options = [], onSort }) {
   return (
     <TextField
       select
@@ -23,7 +23,7 @@ export default function BlogPostsSort({ query, options, onSort }) {
         },
       }}
     >
-      {options.map((option) => (
+      {options?.map((option) => (
         <MenuItem
           key={option.value}
           value={option.value}
