@@ -32,5 +32,6 @@ export const PATH_DASHBOARD = {
   courses: {
     root: path(ROOTS_DASHBOARD, '/courses'),
     list: path(ROOTS_DASHBOARD, '/courses/list'),
+    details: path(ROOTS_DASHBOARD, '/courses/detail/:slug'),
   },
 };

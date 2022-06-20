@@ -6,11 +6,11 @@ import BlogPostCommentItem from './BlogPostCommentItem';
 
 // ----------------------------------------------------------------------
 
-BlogPostCommentList.propTypes = {
+CourseDetailCommentList.propTypes = {
   post: PropTypes.object.isRequired,
 };
 
-export default function BlogPostCommentList({ post }) {
+export default function CourseDetailCommentList({ post }) {
   const { comments } = post;
 
   return (

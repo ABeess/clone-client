@@ -6,11 +6,11 @@ import BlogPostCard from './CourseCard';
 
 // ----------------------------------------------------------------------
 
-BlogPostRecent.propTypes = {
+CourseDetailRecent.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-export default function BlogPostRecent({ posts }) {
+export default function CourseDetailRecent({ posts }) {
   return (
     <>
       <Typography variant="h4" sx={{ mt: 10, mb: 5 }}>
