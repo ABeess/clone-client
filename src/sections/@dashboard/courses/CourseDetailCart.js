@@ -1,21 +1,11 @@
 // mui ui
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Card, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import Iconify from 'src/components/Iconify';
 // Components
 import Image from 'src/components/Image';
 import Scrollbar from 'src/components/Scrollbar';
+import { HEADER } from 'src/config';
 // -------------------------------
 
 const COURSE_INCLUDE = [
@@ -48,7 +38,7 @@ const COURSE_INCLUDE = [
 
 const RootStyle = styled('div')(({ theme }) => ({
   position: 'sticky',
-  top: 88,
+  top: HEADER.MAIN_DESKTOP_HEIGHT,
 }));
 
 const CourseDetailCart = () => {
@@ -56,7 +46,10 @@ const CourseDetailCart = () => {
     <RootStyle>
       <Scrollbar sx={{ height: '80vh' }}>
         <Card sx={{ p: 2 }}>
-          <Image src="https://minimal-assets-api-dev.vercel.app/assets/images/covers/cover_1.jpg" />
+          <Image
+            src="https://minimal-assets-api-dev.vercel.app/assets/images/covers/cover_1.jpg"
+            sx={{ borderRadius: 1 }}
+          />
 
           <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
             <Typography variant="h4">$13.99</Typography>

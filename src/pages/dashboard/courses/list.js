@@ -2,7 +2,6 @@ import { Container, Grid, Stack, Typography } from '@mui/material';
 import { orderBy } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
-import Scrollbar from 'src/components/Scrollbar';
 import { SkeletonPostItem } from 'src/components/skeleton';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useSettings from 'src/hooks/useSettings';
@@ -72,7 +71,7 @@ export default function PageCourses() {
     <Page title="Courses Page">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item xs={0} lg={8} md={8}>
             <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />
@@ -90,7 +89,7 @@ export default function PageCourses() {
             </Grid>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={0} md={4} lg={4}>
             <CourseRightNav />
           </Grid>
         </Grid>

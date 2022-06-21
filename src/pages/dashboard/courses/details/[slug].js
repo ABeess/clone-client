@@ -112,7 +112,7 @@ export default function CourseDetail() {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={8}>
-                  {/* <Markdown children={post.body} /> */}
+                  <Markdown children={post.body} />
                   <CourseDetailList />
                   {/* <CourseDetailContent /> */}
                 </Grid>

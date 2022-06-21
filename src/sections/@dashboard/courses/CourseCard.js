@@ -94,6 +94,7 @@ export default function BlogPostCard({ post, index }) {
       </Box>
 
       <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} />
+      {/* <PostContent title={title} createdAt={createdAt} /> */}
     </Card>
   );
 }

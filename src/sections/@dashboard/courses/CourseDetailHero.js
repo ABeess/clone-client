@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Avatar, SpeedDial, Typography, SpeedDialAction } from '@mui/material';
+import { Box, Avatar, SpeedDial, Typography, SpeedDialAction, Card } from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // utils
@@ -120,8 +120,10 @@ export default function CourseDetailHero({ post }) {
         </SpeedDial>
       </FooterStyle>
 
-      <OverlayStyle />
-      <Image alt="post cover" src={cover} ratio="16/9" />
+      <Card>
+        <OverlayStyle />
+        <Image alt="post cover" src={cover} ratio="16/9" />
+      </Card>
     </Box>
   );
 }
