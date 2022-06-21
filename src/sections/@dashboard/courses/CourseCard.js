@@ -6,15 +6,14 @@ import NextLink from 'next/link';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Card, Avatar, Typography, CardContent, Link, Stack } from '@mui/material';
 import useResponsive from 'src/hooks/useResponsive';
-import { PATH_DASHBOARD } from 'src/routes/path';
-import SvgIconStyle from 'src/components/SvgIconStyle';
-import Image from 'src/components/Image';
 import { fDate } from 'src/utils/formatTime';
-import TextMaxLine from 'src/components/TextMaxLine';
-import TextIconLabel from 'src/components/TextIconLabel';
-import Iconify from 'src/components/Iconify';
 import { fShortenNumber } from 'src/utils/formatNumber';
-// routes
+import Image from 'src/components/Image';
+import Iconify from 'src/components/Iconify';
+import TextMaxLine from 'src/components/TextMaxLine';
+import SvgIconStyle from 'src/components/SvgIconStyle';
+import TextIconLabel from 'src/components/TextIconLabel';
+import { PATH_DASHBOARD } from 'src/routes/path';
 
 // ----------------------------------------------------------------------
 
@@ -29,50 +28,44 @@ const OverlayStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-CourseCard.propTypes = {
+BlogPostCard.propTypes = {
   post: PropTypes.object.isRequired,
   index: PropTypes.number,
 };
 
-export default function CourseCard({ post, index }) {
-  const isDesktop = useResponsive('up', 'md');
-
+export default function BlogPostCard({ post, index }) {
   const { cover, title, view, comment, share, author, createdAt } = post;
 
   const latestPost = index === 0 || index === 1 || index === 2;
 
-  if (isDesktop && latestPost) {
-    return (
-      <Card
-        sx={{
-          cursor: 'pointer',
-        }}
-      >
-        <Avatar
-          alt={author.name}
-          src={author.avatarUrl}
-          sx={{
-            zIndex: 9,
-            top: 24,
-            left: 24,
-            width: 40,
-            height: 40,
-            position: 'absolute',
-          }}
-        />
-        <CourseContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} index={index} />
-        <OverlayStyle />
-        <Image alt="cover" src={cover} sx={{ height: 360 }} />
-      </Card>
-    );
-  }
+  // if (isDesktop && latestPost) {
+  //   return (
+  //     <Card
+  //       sx={{
+  //         cursor: 'pointer',
+  //       }}
+  //     >
+  //       <Avatar
+  //         alt={author.name}
+  //         src={author.avatarUrl}
+  //         sx={{
+  //           zIndex: 9,
+  //           top: 24,
+  //           left: 24,
+  //           width: 40,
+  //           height: 40,
+  //           position: 'absolute',
+  //         }}
+  //       />
+  //       <CourseContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} index={index} />
+  //       <OverlayStyle />
+  //       <Image alt="cover" src={cover} sx={{ height: 360 }} />
+  //     </Card>
+  //   );
+  // }
 
   return (
-    <Card
-      sx={{
-        cursor: 'pointer',
-      }}
-    >
+    <Card>
       <Box sx={{ position: 'relative' }}>
         <SvgIconStyle
           src="https://minimal-assets-api.vercel.app/assets/icons/shape-avatar.svg"
@@ -100,14 +93,14 @@ export default function CourseCard({ post, index }) {
         <Image alt="cover" src={cover} ratio="4/3" />
       </Box>
 
-      <CourseContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} />
+      <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} />
     </Card>
   );
 }
 
 // ----------------------------------------------------------------------
 
-CourseContent.propTypes = {
+PostContent.propTypes = {
   comment: PropTypes.number,
   createdAt: PropTypes.string,
   index: PropTypes.number,
@@ -116,10 +109,11 @@ CourseContent.propTypes = {
   view: PropTypes.number,
 };
 
-export function CourseContent({ title, view, comment, share, createdAt, index }) {
+export function PostContent({ title, view, comment, share, createdAt, index }) {
   const isDesktop = useResponsive('up', 'md');
 
-  const linkTo = PATH_DASHBOARD.general.view(paramCase(title));
+  // const linkTo = PATH_DASHBOARD.blog.view(paramCase(title));
+  const linkTo = '/';
 
   const latestPostLarge = index === 0;
   const latestPostSmall = index === 1 || index === 2;
@@ -159,13 +153,13 @@ export function CourseContent({ title, view, comment, share, createdAt, index })
         {fDate(createdAt)}
       </Typography>
 
-      {/* <NextLink href={linkTo} passHref>
-        <Link color="inherit"> */}
-      <TextMaxLine variant={isDesktop && latestPostLarge ? 'h5' : 'subtitle2'} line={2} persistent>
-        {title}
-      </TextMaxLine>
-      {/* </Link>
-      </NextLink> */}
+      <NextLink href={linkTo} passHref>
+        <Link color="inherit">
+          <TextMaxLine variant={isDesktop && latestPostLarge ? 'h5' : 'subtitle2'} line={2} persistent>
+            {title}
+          </TextMaxLine>
+        </Link>
+      </NextLink>
 
       <Stack
         flexWrap="wrap"

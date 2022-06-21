@@ -4,31 +4,26 @@ import { MenuItem, TextField } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-// CourseFilter.propTypes = {
-//   query: PropTypes.string,
-//   options: PropTypes.array,
-//   onSort: PropTypes.func,
-// };
+BlogPostsSort.propTypes = {
+  query: PropTypes.string,
+  options: PropTypes.array,
+  onSort: PropTypes.func,
+};
 
-export default function CourseFilter() {
-  const options = [
-    { value: 'latest', label: 'Latest' },
-    { value: 'popular', label: 'Popular' },
-    { value: 'oldest', label: 'Oldest' },
-  ];
+export default function BlogPostsSort({ query, options = [], onSort }) {
   return (
     <TextField
       select
       size="small"
-      // value={query}
-      // onChange={(event) => onSort(event.target.value)}
+      value={query}
+      onChange={(event) => onSort(event.target.value)}
       sx={{
         '& .MuiSelect-select': {
           typography: 'body2',
         },
       }}
     >
-      {options.map((option) => (
+      {options?.map((option) => (
         <MenuItem
           key={option.value}
           value={option.value}

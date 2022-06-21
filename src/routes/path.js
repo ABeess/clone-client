@@ -16,7 +16,6 @@ export const PATH_AUTH = {
 };
 
 export const PATH_PAGE = {
-  comingSoon: '/coming-soon',
   maintenance: '/maintenance',
   pricing: '/pricing',
   payment: '/payment',
@@ -30,8 +29,9 @@ export const PATH_PAGE = {
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  general: {
-    courses: path(ROOTS_DASHBOARD, '/courses'),
-    view: (title) => path(ROOTS_DASHBOARD, `/courses/${title}`),
+  courses: {
+    root: path(ROOTS_DASHBOARD, '/courses'),
+    list: path(ROOTS_DASHBOARD, '/courses/list'),
+    details: path(ROOTS_DASHBOARD, '/courses/detail/:slug'),
   },
 };
