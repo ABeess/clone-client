@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 // @mui
 import { Box, List } from '@mui/material';
 //
-import BlogPostCommentItem from './BlogPostCommentItem';
+import CourseDetailCommentItem from './CourseDetailCommentItem';
 
 // ----------------------------------------------------------------------
 
@@ -16,32 +16,16 @@ export default function CourseDetailCommentList({ post }) {
   return (
     <List disablePadding>
       {comments.map((comment) => {
-        const { id, replyComment, users } = comment;
-        const hasReply = replyComment.length > 0;
+        const { id } = comment;
 
         return (
-          <Box key={id} sx={{}}>
-            <BlogPostCommentItem
+          <Box key={id}>
+            <CourseDetailCommentItem
               name={comment.name}
-              avatarUrl={comment.avatarUrl}
+              atarUrl={comment.avatarUrl}
               postedAt={comment.postedAt}
               message={comment.message}
             />
-            {hasReply &&
-              replyComment.map((reply) => {
-                const user = users.find((_user) => _user.id === reply.userId);
-                return (
-                  <BlogPostCommentItem
-                    key={reply.id}
-                    tagUser={reply.tagUser}
-                    postedAt={reply.postedAt}
-                    message={reply.message}
-                    name={user?.name || ''}
-                    avatarUrl={user?.avatarUrl}
-                    hasReply
-                  />
-                );
-              })}
           </Box>
         );
       })}

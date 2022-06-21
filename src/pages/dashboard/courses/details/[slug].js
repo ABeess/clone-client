@@ -20,11 +20,13 @@ import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 // import { SkeletonPost } from 'src/components';
 import {
   CourseDetailHero,
-  BlogPostTags,
-  CourseDetailRecent,
+  CourseDetailCart,
+  CourseDetailContent,
+  CourseDetailRating,
   CourseDetailCommentList,
   CourseDetailsCommentForm,
-  CourseDetailContent,
+  CourseDetailRecent,
+  CourseDetailList,
 } from 'src/sections/@dashboard/courses';
 import { SkeletonPost } from 'src/components/skeleton';
 // import BlogPostCommentList from 'src/sections/@dashboard/courses/BlogPostCommentList';
@@ -89,10 +91,10 @@ export default function CourseDetail() {
   }, [getRecentPosts, getPost]);
 
   return (
-    <Page title="Blog: Post Details">
+    <Page title="Course Details">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Post Details"
+          heading="Course Details"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'Course', href: PATH_DASHBOARD.courses.root },
@@ -110,17 +112,18 @@ export default function CourseDetail() {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={8}>
-                  <Markdown children={post.body} />
+                  {/* <Markdown children={post.body} /> */}
+                  <CourseDetailList />
                   {/* <CourseDetailContent /> */}
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant="h1">Add To Card</Typography>
+                  <CourseDetailCart />
                 </Grid>
               </Grid>
 
               <Box sx={{ my: 5 }}>
                 <Divider />
-                <BlogPostTags post={post} />
+                <CourseDetailRating post={post} />
                 <Divider />
               </Box>
 
