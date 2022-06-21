@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { Link, Typography, Autocomplete, InputAdornment, Popper } from '@mui/material';
 // hooks
 import axios from 'src/utils/axios';
-import { PATH_DASHBOARD } from 'src/routes/path';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 import Image from 'src/components/Image';
 import Iconify from 'src/components/Iconify';
 import InputStyle from 'src/components/InputStyle';

@@ -1,5 +1,5 @@
 // components
-import { PATH_DASHBOARD } from 'src/routes/path';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
