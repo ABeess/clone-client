@@ -2,6 +2,7 @@ import { Container, Grid, Stack, Typography } from '@mui/material';
 import { orderBy } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
+import Scrollbar from 'src/components/Scrollbar';
 import { SkeletonPostItem } from 'src/components/skeleton';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useSettings from 'src/hooks/useSettings';
@@ -88,6 +89,7 @@ export default function PageCourses() {
               )}
             </Grid>
           </Grid>
+
           <Grid item xs={4}>
             <CourseRightNav />
           </Grid>

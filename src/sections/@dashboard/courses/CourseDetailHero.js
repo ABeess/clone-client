@@ -76,11 +76,11 @@ const FooterStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-BlogPostHero.propTypes = {
+CourseDetailHero.propTypes = {
   post: PropTypes.object.isRequired,
 };
 
-export default function BlogPostHero({ post }) {
+export default function CourseDetailHero({ post }) {
   const { cover, title, author, createdAt } = post;
 
   const isDesktop = useResponsive('up', 'sm');
