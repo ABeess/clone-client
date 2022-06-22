@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { paramCase } from 'change-case';
 // next
 import NextLink from 'next/link';
 // @mui
@@ -13,7 +12,6 @@ import Iconify from 'src/components/Iconify';
 import TextMaxLine from 'src/components/TextMaxLine';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import TextIconLabel from 'src/components/TextIconLabel';
-import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 

@@ -3,9 +3,9 @@ import { sentenceCase } from 'change-case';
 // next
 import { useRouter } from 'next/router';
 // @mui
-import { Box, Card, Divider, Container, Typography, Pagination, Grid } from '@mui/material';
+import { Box, Divider, Container, Typography, Pagination, Grid } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from 'src/routes/path';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 // hooks
 import useSettings from 'src/hooks/useSettings';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
@@ -21,7 +21,6 @@ import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import {
   CourseDetailHero,
   CourseDetailCart,
-  CourseDetailContent,
   CourseDetailRating,
   CourseDetailCommentList,
   CourseDetailsCommentForm,

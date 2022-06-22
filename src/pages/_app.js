@@ -11,6 +11,7 @@ import cookie from 'cookie';
 // next
 import Head from 'next/head';
 import App from 'next/app';
+import { RecoilRoot } from 'recoil';
 // utils
 import { getSettings } from '../utils/settings';
 // contexts
@@ -43,22 +44,23 @@ export default function MyApp(props) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
-      <CollapseDrawerProvider>
-        <SettingsProvider defaultSettings={settings}>
-          <ThemeProvider>
-            <MotionLazyContainer>
-              <ThemeColorPresets>
-                <RtlLayout>
-                  <Settings />
-                  <ProgressBar />
-                  {getLayout(<Component {...pageProps} />)}
-                </RtlLayout>
-              </ThemeColorPresets>
-            </MotionLazyContainer>
-          </ThemeProvider>
-        </SettingsProvider>
-      </CollapseDrawerProvider>
+      <RecoilRoot>
+        <CollapseDrawerProvider>
+          <SettingsProvider defaultSettings={settings}>
+            <ThemeProvider>
+              <MotionLazyContainer>
+                <ThemeColorPresets>
+                  <RtlLayout>
+                    <Settings />
+                    <ProgressBar />
+                    {getLayout(<Component {...pageProps} />)}
+                  </RtlLayout>
+                </ThemeColorPresets>
+              </MotionLazyContainer>
+            </ThemeProvider>
+          </SettingsProvider>
+        </CollapseDrawerProvider>
+      </RecoilRoot>
     </>
   );
 }
