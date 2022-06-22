@@ -1,7 +1,8 @@
-import styled from '@emotion/styled';
-import { Container } from '@mui/material';
-import React from 'react';
+// mui ui
+import { Container, styled } from '@mui/material';
+// Component
 import Image from 'src/components/Image';
+// Config
 import { LESSON } from 'src/config';
 
 // ------------------------------

@@ -2,8 +2,6 @@ import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 // mui ui
 import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, styled, Typography } from '@mui/material';
-// Hooks
-import useSettings from 'src/hooks/useSettings';
 // components
 import Iconify from 'src/components/Iconify';
 import Scrollbar from 'src/components/Scrollbar';
@@ -29,16 +27,27 @@ const RootStyle = styled(Box, {
   ...(isOffset && { top: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT }),
 }));
 
-const ListItemStyle = styled(ListItemButton)(({ theme }) => ({
-  position: 'sticky',
-  top: 0,
-  zIndex: 2000,
+const ContentStyle = styled(Box)(({ theme }) => ({
+  borderRadius: 4,
+  overflow: 'hidden',
+  boxShadow: theme.customShadows.z24,
 }));
+
+const ListItemStyle = styled(ListItemButton)(({ theme }) => {
+  const isLight = theme.palette.mode === 'light';
+  return {
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+    backgroundColor: isLight ? theme.palette.grey[200] : theme.palette.grey[800],
+    '&:hover': {
+      backgroundColor: isLight ? theme.palette.grey[300] : theme.palette.grey[700],
+    },
+  };
+});
 
 const LessonList = ({ data }) => {
   const [isCollapse, setIsCollapse] = useState(false);
-
-  const { themeMode } = useSettings();
 
   const isOffset = useRecoilValue(offsetAtom);
 
@@ -57,16 +66,11 @@ const LessonList = ({ data }) => {
         //   </Typography>
         // }
       >
-        <Box sx={{ borderRadius: 0.5, overflow: 'hidden' }}>
+        <ContentStyle>
           <Scrollbar sx={{ height: `calc(100vh - ${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px)`, pb: 1 }}>
             {data.map((list) => (
               <div key={list.id}>
-                <ListItemStyle
-                  onClick={() => handleClick(list.id)}
-                  sx={{
-                    bgcolor: (theme) => (themeMode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800]),
-                  }}
-                >
+                <ListItemStyle onClick={() => handleClick(list.id)}>
                   <ListItemText
                     primary={<Typography variant="subtitle1">1. {list.title}</Typography>}
                     secondary={
@@ -76,7 +80,7 @@ const LessonList = ({ data }) => {
                     }
                   />
                   <ListItemIcon>
-                    <Iconify icon="ep:arrow-down-bold" />
+                    <Iconify icon={isCollapse[list.id] ? 'ep:arrow-down-bold' : 'ep:arrow-right-bold'} />
                   </ListItemIcon>
                 </ListItemStyle>
                 <Collapse in={isCollapse[list.id]}>
@@ -87,7 +91,7 @@ const LessonList = ({ data }) => {
               </div>
             ))}
           </Scrollbar>
-        </Box>
+        </ContentStyle>
       </List>
     </RootStyle>
   );
