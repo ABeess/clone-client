@@ -1,10 +1,11 @@
 // mui ui
 import { Button, Card, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import Iconify from 'src/components/Iconify';
 // Components
+import Iconify from 'src/components/Iconify';
 import Image from 'src/components/Image';
 import Scrollbar from 'src/components/Scrollbar';
+// config
 import { HEADER } from 'src/config';
 // -------------------------------
 

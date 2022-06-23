@@ -3,6 +3,7 @@ import { orderBy } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import { SkeletonPostItem } from 'src/components/skeleton';
+import { getAllCourse } from 'src/fetching/course.api';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
@@ -34,32 +35,32 @@ const applySort = (posts, sortBy) => {
 };
 // ----------------------------------------------------------------------
 
-export default function PageCourses() {
+export default function PageCourses({ courses }) {
   const { themeStretch } = useSettings();
 
-  const isMountedRef = useIsMountedRef();
+  // const isMountedRef = useIsMountedRef();
 
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
   const [filters, setFilters] = useState('latest');
 
-  const sortedPosts = applySort(posts, filters);
+  // const sortedPosts = applySort(posts, filters);
 
-  const getAllPosts = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/blog/posts/all');
+  // const getAllPosts = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get('/api/blog/posts/all');
 
-      if (isMountedRef.current) {
-        setPosts(response.data.posts);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [isMountedRef]);
+  //     if (isMountedRef.current) {
+  //       setPosts(response.data.posts);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [isMountedRef]);
 
-  useEffect(() => {
-    getAllPosts();
-  }, [getAllPosts]);
+  // useEffect(() => {
+  //   getAllPosts();
+  // }, [getAllPosts]);
 
   const handleChangeSort = (value) => {
     if (value) {
@@ -76,11 +77,23 @@ export default function PageCourses() {
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />
             </Stack>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               {(!posts.length ? [...Array(12)] : posts).map((post, index) =>
                 post ? (
                   <Grid key={post.id} item xs={12} sm={6} md={4}>
                     <CourseCard post={post} index={index} />
+                  </Grid>
+                ) : (
+                  <SkeletonPostItem key={index} />
+                )
+              )}
+            </Grid> */}
+
+            <Grid container spacing={3}>
+              {(!courses?.length ? [...Array(12)] : courses).map((course, index) =>
+                course ? (
+                  <Grid key={course._id} item xs={12} sm={6} md={4}>
+                    <CourseCard course={course} index={index} />
                   </Grid>
                 ) : (
                   <SkeletonPostItem key={index} />
@@ -97,3 +110,14 @@ export default function PageCourses() {
     </Page>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const response = await getAllCourse({
+    where: { $select: ['title', 'createdAt', 'thumbnail', 'slug'] },
+  });
+  return {
+    props: {
+      courses: response.data,
+    },
+  };
+};

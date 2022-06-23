@@ -1,21 +1,21 @@
 import PropTypes from 'prop-types';
 // @mui
 import { Box, List } from '@mui/material';
-//
+//component
 import CourseDetailCommentItem from './CourseDetailCommentItem';
 
 // ----------------------------------------------------------------------
 
-CourseDetailCommentList.propTypes = {
-  post: PropTypes.object.isRequired,
-};
+// CourseDetailCommentList.propTypes = {
+//   post: PropTypes.object.isRequired,
+// };
 
 export default function CourseDetailCommentList({ post }) {
-  const { comments } = post;
+  // const { comments } = post;
 
   return (
     <List disablePadding>
-      {comments.map((comment) => {
+      {[]?.map((comment) => {
         const { id } = comment;
 
         return (

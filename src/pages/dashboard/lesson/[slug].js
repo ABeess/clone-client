@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 //hooks
 import useSettings from 'src/hooks/useSettings';
 // layouts
 import Layout from 'src/layouts';
+// Hooks
+import useCollapseDrawer from 'src/hooks/useCollapseDrawer';
 // components
 import Page from 'src/components/Page';
 import { LessonContent, LessonList } from 'src/sections/@dashboard/lesson';
@@ -17,6 +20,13 @@ CourseLesson.getLayout = function getLayout(page) {
 
 export default function CourseLesson({ data }) {
   const { themeStretch } = useSettings();
+
+  const collapseClick = useCollapseDrawer();
+
+  useEffect(() => {
+    collapseClick.onToggleCollapse();
+  }, []);
+
   return (
     <Page title="Lesson">
       <LessonContent />

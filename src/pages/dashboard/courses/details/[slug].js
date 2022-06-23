@@ -1,23 +1,22 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { sentenceCase } from 'change-case';
 // next
-import { useRouter } from 'next/router';
 // @mui
 import { Box, Divider, Container, Typography, Pagination, Grid } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
 // hooks
 import useSettings from 'src/hooks/useSettings';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-// utils
-import axios from 'src/utils/axios';
 // layouts
 import Layout from 'src/layouts';
 // components
 import Page from 'src/components/Page';
 import Markdown from 'src/components/Markdown';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
-// import { SkeletonPost } from 'src/components';
+import { SkeletonPost } from 'src/components/skeleton';
+import { getOneCourse } from 'src/fetching/course.api';
+
+// Section
 import {
   CourseDetailHero,
   CourseDetailCart,
@@ -27,10 +26,6 @@ import {
   CourseDetailRecent,
   CourseDetailList,
 } from 'src/sections/@dashboard/courses';
-import { SkeletonPost } from 'src/components/skeleton';
-// import BlogPostCommentList from 'src/sections/@dashboard/courses/BlogPostCommentList';
-// import CourseDetailsCommentForm from 'src/sections/@dashboard/courses/BlogPostCommentForm';
-// sections
 
 // ----------------------------------------------------------------------
 
@@ -40,54 +35,30 @@ CourseDetail.getLayout = function getLayout(page) {
 
 // ----------------------------------------------------------------------
 
-export default function CourseDetail() {
+export default function CourseDetail({ course }) {
   const { themeStretch } = useSettings();
-
-  const isMountedRef = useIsMountedRef();
-
-  const { query } = useRouter();
-
-  const { title } = query;
 
   const [recentPosts, setRecentPosts] = useState([]);
 
   const [post, setPost] = useState(null);
 
-  const [error, setError] = useState(null);
+  // const getRecentPosts = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get('/api/blog/posts/recent', {
+  //       params: { title },
+  //     });
 
-  const getPost = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/blog/post', {
-        params: { title: 'apply-these-7-secret-techniques-to-improve-event' },
-      });
+  //     if (isMountedRef.current) {
+  //       setRecentPosts(response.data.recentPosts);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [isMountedRef, title]);
 
-      if (isMountedRef.current) {
-        setPost(response.data.post);
-      }
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-    }
-  }, [isMountedRef, title]);
-
-  const getRecentPosts = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/blog/posts/recent', {
-        params: { title },
-      });
-
-      if (isMountedRef.current) {
-        setRecentPosts(response.data.recentPosts);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [isMountedRef, title]);
-
-  useEffect(() => {
-    getPost();
-    getRecentPosts();
-  }, [getRecentPosts, getPost]);
+  // useEffect(() => {
+  //   getRecentPosts();
+  // }, [getRecentPosts]);
 
   return (
     <Page title="Course Details">
@@ -101,17 +72,17 @@ export default function CourseDetail() {
           ]}
         />
 
-        {post && (
+        {course && (
           <>
-            <CourseDetailHero post={post} />
+            <CourseDetailHero course={course} />
 
             <Box sx={{ p: { xs: 3, md: 5 } }}>
               <Typography variant="h6" sx={{ mb: 5 }}>
-                {post.description}
+                {course.subTitle}
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={8}>
-                  <Markdown children={post.body} />
+                  <Markdown children={course.description} />
                   <CourseDetailList />
                   {/* <CourseDetailContent /> */}
                 </Grid>
@@ -122,14 +93,14 @@ export default function CourseDetail() {
 
               <Box sx={{ my: 5 }}>
                 <Divider />
-                <CourseDetailRating post={post} />
+                <CourseDetailRating />
                 <Divider />
               </Box>
 
               <Box sx={{ display: 'flex', mb: 2 }}>
                 <Typography variant="h4">Comments</Typography>
                 <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                  ({post.comments.length})
+                  {/* ({post?.comments?.length}) */}
                 </Typography>
               </Box>
 
@@ -144,12 +115,23 @@ export default function CourseDetail() {
           </>
         )}
 
-        {!post && !error && <SkeletonPost />}
+        {!course && <SkeletonPost />}
 
-        {error && <Typography variant="h6">404 {error}!</Typography>}
-
-        <CourseDetailRecent posts={recentPosts} />
+        <CourseDetailRecent courses={recentPosts} />
       </Container>
     </Page>
   );
 }
+
+export const getServerSideProps = async ({ query }) => {
+  const slug = query.slug;
+  const response = await getOneCourse({
+    id: null,
+    where: { slug },
+  });
+  return {
+    props: {
+      course: response.data[0],
+    },
+  };
+};

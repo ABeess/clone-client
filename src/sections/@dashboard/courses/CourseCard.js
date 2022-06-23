@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 // next
 import NextLink from 'next/link';
-// @mui
+// @mui ui
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Card, Avatar, Typography, CardContent, Link, Stack } from '@mui/material';
+// hooks
 import useResponsive from 'src/hooks/useResponsive';
+// component
 import { fDate } from 'src/utils/formatTime';
 import { fShortenNumber } from 'src/utils/formatNumber';
 import Image from 'src/components/Image';
@@ -12,6 +14,8 @@ import Iconify from 'src/components/Iconify';
 import TextMaxLine from 'src/components/TextMaxLine';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import TextIconLabel from 'src/components/TextIconLabel';
+// path
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -26,13 +30,19 @@ const OverlayStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-BlogPostCard.propTypes = {
-  post: PropTypes.object.isRequired,
+CourseCard.propTypes = {
+  // post: PropTypes.object.isRequired,
   index: PropTypes.number,
 };
 
-export default function BlogPostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+export default function CourseCard({ course, index }) {
+  // const { cover, title, view, comment, share, author, createdAt } = post;
+  const {
+    thumbnail: { url },
+    title,
+    createdAt,
+    slug,
+  } = course;
 
   const latestPost = index === 0 || index === 1 || index === 2;
 
@@ -77,8 +87,8 @@ export default function BlogPostCard({ post, index }) {
           }}
         />
         <Avatar
-          alt={author.name}
-          src={author.avatarUrl}
+          alt={title}
+          src={url}
           sx={{
             left: 24,
             zIndex: 9,
@@ -88,11 +98,11 @@ export default function BlogPostCard({ post, index }) {
             position: 'absolute',
           }}
         />
-        <Image alt="cover" src={cover} ratio="4/3" />
+        <Image alt="cover" src={url} ratio="4/3" />
       </Box>
 
-      <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} />
-      {/* <PostContent title={title} createdAt={createdAt} /> */}
+      {/* <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} /> */}
+      <PostContent title={title} createdAt={createdAt} slug={slug} />
     </Card>
   );
 }
@@ -108,11 +118,12 @@ PostContent.propTypes = {
   view: PropTypes.number,
 };
 
-export function PostContent({ title, view, comment, share, createdAt, index }) {
+// export function PostContent({ title, view, comment, share, createdAt, index }) {
+export function PostContent({ title, view, comment, share, createdAt, index, slug }) {
   const isDesktop = useResponsive('up', 'md');
 
   // const linkTo = PATH_DASHBOARD.blog.view(paramCase(title));
-  const linkTo = '/';
+  const linkTo = `${PATH_DASHBOARD.courses.root}/details/${slug}`;
 
   const latestPostLarge = index === 0;
   const latestPostSmall = index === 1 || index === 2;

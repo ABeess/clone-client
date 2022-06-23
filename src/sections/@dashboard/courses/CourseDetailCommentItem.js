@@ -1,7 +1,7 @@
 // @mui
 import { Avatar, ListItem, Typography, ListItemText, ListItemAvatar, Rating } from '@mui/material';
 // utils
-import { fDate } from '../../../utils/formatTime';
+import { fDate } from 'src/utils/formatTime';
 
 // ----------------------------------------------------------------------
 

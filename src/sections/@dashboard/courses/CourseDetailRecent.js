@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 // @mui
 import { Grid, Typography } from '@mui/material';
 //
-import BlogPostCard from './CourseCard';
+import CourseCard from './CourseCard';
 
 // ----------------------------------------------------------------------
 
-CourseDetailRecent.propTypes = {
-  posts: PropTypes.array.isRequired,
-};
+// CourseDetailRecent.propTypes = {
+//   posts: PropTypes.array.isRequired,
+// };
 
-export default function CourseDetailRecent({ posts }) {
+export default function CourseDetailRecent({ courses }) {
   return (
     <>
       <Typography variant="h4" sx={{ mt: 10, mb: 5 }}>
@@ -18,9 +18,9 @@ export default function CourseDetailRecent({ posts }) {
       </Typography>
 
       <Grid container spacing={3}>
-        {posts.map((post) => (
-          <Grid key={post.id} item xs={12} sm={6} md={3}>
-            <BlogPostCard post={post} />
+        {courses.map((course) => (
+          <Grid key={courses.id} item xs={12} sm={6} md={3}>
+            <CourseCard courses={course} />
           </Grid>
         ))}
       </Grid>
