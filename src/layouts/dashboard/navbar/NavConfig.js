@@ -17,7 +17,7 @@ const sidebarConfig = [
   {
     subheader: 'general v3.3.0',
     items: [
-      { title: 'Dashboard', path: '/dashboard/one', icon: ICONS.dashboard },
+      { title: 'Dashboard', path: PATH_DASHBOARD.courses.list, icon: ICONS.dashboard },
       { title: 'Courses', path: PATH_DASHBOARD.courses.list, icon: ICONS.ecommerce },
     ],
   },

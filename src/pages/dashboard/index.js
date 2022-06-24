@@ -8,7 +8,7 @@ export default function Index() {
 
   useEffect(() => {
     if (router.pathname == '/dashboard') {
-      router.push('/dashboard/courses');
+      router.push('/dashboard/courses/list');
     }
   });
 
