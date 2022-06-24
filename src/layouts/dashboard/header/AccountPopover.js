@@ -7,6 +7,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar } from '@mui/material
 // components
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Profile',
-    linkTo: '/',
+    linkTo: PATH_DASHBOARD.user.profile,
   },
   {
     label: 'Settings',
