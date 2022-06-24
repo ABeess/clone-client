@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import Scrollbar from 'src/components/Scrollbar';
 import { SkeletonPostItem } from 'src/components/skeleton';
+import { reAuthenticate } from 'src/fetching/auth.api';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
@@ -73,6 +74,14 @@ export default function PageCourses() {
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
           <Grid item xs={8}>
+            <button
+              onClick={async () => {
+                const a = await reAuthenticate();
+                console.log(a);
+              }}
+            >
+              checking
+            </button>
             <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />

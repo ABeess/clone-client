@@ -24,7 +24,7 @@ import RtlLayout from '../components/RtlLayout';
 import ProgressBar from '../components/ProgressBar';
 import ThemeColorPresets from '../components/ThemeColorPresets';
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
-
+import { RecoilRoot } from 'recoil';
 // ----------------------------------------------------------------------
 
 MyApp.propTypes = {
@@ -43,22 +43,23 @@ export default function MyApp(props) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
-      <CollapseDrawerProvider>
-        <SettingsProvider defaultSettings={settings}>
-          <ThemeProvider>
-            <MotionLazyContainer>
-              <ThemeColorPresets>
-                <RtlLayout>
-                  <Settings />
-                  <ProgressBar />
-                  {getLayout(<Component {...pageProps} />)}
-                </RtlLayout>
-              </ThemeColorPresets>
-            </MotionLazyContainer>
-          </ThemeProvider>
-        </SettingsProvider>
-      </CollapseDrawerProvider>
+      <RecoilRoot>
+        <CollapseDrawerProvider>
+          <SettingsProvider defaultSettings={settings}>
+            <ThemeProvider>
+              <MotionLazyContainer>
+                <ThemeColorPresets>
+                  <RtlLayout>
+                    <Settings />
+                    <ProgressBar />
+                    {getLayout(<Component {...pageProps} />)}
+                  </RtlLayout>
+                </ThemeColorPresets>
+              </MotionLazyContainer>
+            </ThemeProvider>
+          </SettingsProvider>
+        </CollapseDrawerProvider>
+      </RecoilRoot>
     </>
   );
 }
