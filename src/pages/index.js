@@ -18,10 +18,9 @@ export default function Index() {
           console.log(token);
           localStorage.setItem('recoil-persist', JSON.stringify({ authentication: { accessToken: token } }));
           // setAuthState((prev) => ({ ...prev, accessToken: token }));
-          // const { isAdmin, sub } = decode(token);
-          // const [userData] = await Promise.all([reAuthenticate(), refreshToken({ data: { isAdmin, _id: sub } })]);
-          // console.log(userData?.user);
-          // setAuth({ user: userData?.user });
+          const { isAdmin, sub } = decode(token);
+          const [userData] = await Promise.all([reAuthenticate(), refreshToken({ data: { isAdmin, _id: sub } })]);
+          setAuthState((prev) => ({ ...prev, user: userData?.user }));
           // localStorage.setItem(
           //   'recoil-persist',
           //   JSON.stringify({ authentication: { accessToken: token, isAuthenticated: true, user: userData?.user } })
