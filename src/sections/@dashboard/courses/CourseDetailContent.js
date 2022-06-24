@@ -1,5 +1,6 @@
+// mui ui
 import { Box, Grid, List, ListItem, ListItemIcon, ListItemText, styled, Typography } from '@mui/material';
-import React from 'react';
+// components
 import Iconify from 'src/components/Iconify';
 
 // ------------------------------

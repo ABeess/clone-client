@@ -7,14 +7,17 @@ import { useRouter } from 'next/router';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Link, Typography, Autocomplete, InputAdornment, Popper } from '@mui/material';
-// hooks
-import axios from 'src/utils/axios';
-import { PATH_DASHBOARD } from 'src/routes/paths';
+// components
+
 import Image from 'src/components/Image';
 import Iconify from 'src/components/Iconify';
 import InputStyle from 'src/components/InputStyle';
 import SearchNotFound from 'src/components/SearchNotFound';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
+// utils
+import axios from 'src/utils/axios';
+// paths
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +27,7 @@ const PopperStyle = styled((props) => <Popper placement="bottom-start" {...props
 
 // ----------------------------------------------------------------------
 
-export default function BlogPostsSearch() {
+export default function CourseSearch() {
   const { push } = useRouter();
 
   const isMountedRef = useIsMountedRef();

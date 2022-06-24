@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Avatar, SpeedDial, Typography, SpeedDialAction } from '@mui/material';
+import { Box, Avatar, SpeedDial, Typography, SpeedDialAction, Card } from '@mui/material';
 // hooks
-import useResponsive from '../../../hooks/useResponsive';
-// utils
-import { fDate } from '../../../utils/formatTime';
+import useResponsive from 'src/hooks/useResponsive';
 // components
-import Image from '../../../components/Image';
-import Iconify from '../../../components/Iconify';
+import Image from 'src/components/Image';
+import Iconify from 'src/components/Iconify';
+// utils
+import { fDate } from 'src/utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -76,12 +76,16 @@ const FooterStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-CourseDetailHero.propTypes = {
-  post: PropTypes.object.isRequired,
-};
+// CourseDetailHero.propTypes = {
+//   post: PropTypes.object.isRequired,
+// };
 
-export default function CourseDetailHero({ post }) {
-  const { cover, title, author, createdAt } = post;
+export default function CourseDetailHero({ course }) {
+  const {
+    thumbnail: { url },
+    title,
+    createdAt,
+  } = course;
 
   const isDesktop = useResponsive('up', 'sm');
 
@@ -91,10 +95,12 @@ export default function CourseDetailHero({ post }) {
 
       <FooterStyle>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt={author.name} src={author.avatarUrl} sx={{ width: 48, height: 48 }} />
+          {/* <Avatar alt={author.name} src={author.avatarUrl} sx={{ width: 48, height: 48 }} /> */}
+          <Avatar alt={title} src={url} sx={{ width: 48, height: 48 }} />
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle1" sx={{ color: 'common.white' }}>
-              {author.name}
+              {/* {author.name} */}
+              Author Name
             </Typography>
             <Typography variant="body2" sx={{ color: 'grey.500' }}>
               {fDate(createdAt)}
@@ -120,8 +126,10 @@ export default function CourseDetailHero({ post }) {
         </SpeedDial>
       </FooterStyle>
 
-      <OverlayStyle />
-      <Image alt="post cover" src={cover} ratio="16/9" />
+      <Card>
+        <OverlayStyle />
+        <Image alt="post cover" src={url} ratio="16/9" />
+      </Card>
     </Box>
   );
 }

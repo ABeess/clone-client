@@ -23,6 +23,9 @@ export const ICON = {
   NAVBAR_ITEM_HORIZONTAL: 20,
 };
 
+export const LESSON = {
+  LIST_ITEM_WIDTH: 340,
+};
 // SETTINGS
 // ----------------------------------------------------------------------
 

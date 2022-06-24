@@ -1,10 +1,13 @@
-import { Container, Grid, Stack, Typography } from '@mui/material';
+import { Container, Grid, Stack } from '@mui/material';
 import { orderBy } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
-import Scrollbar from 'src/components/Scrollbar';
 import { SkeletonPostItem } from 'src/components/skeleton';
+<<<<<<< HEAD
 import { reAuthenticate } from 'src/fetching/auth.api';
+=======
+import { getAllCourse } from 'src/fetching/course.api';
+>>>>>>> 9855baed88c7b6649706d9f428ee2f4d1b9a451a
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
@@ -36,32 +39,32 @@ const applySort = (posts, sortBy) => {
 };
 // ----------------------------------------------------------------------
 
-export default function PageCourses() {
+export default function PageCourses({ courses }) {
   const { themeStretch } = useSettings();
 
-  const isMountedRef = useIsMountedRef();
+  // const isMountedRef = useIsMountedRef();
 
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
   const [filters, setFilters] = useState('latest');
 
-  const sortedPosts = applySort(posts, filters);
+  // const sortedPosts = applySort(posts, filters);
 
-  const getAllPosts = useCallback(async () => {
-    try {
-      const response = await axios.get('/api/blog/posts/all');
+  // const getAllPosts = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get('/api/blog/posts/all');
 
-      if (isMountedRef.current) {
-        setPosts(response.data.posts);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [isMountedRef]);
+  //     if (isMountedRef.current) {
+  //       setPosts(response.data.posts);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [isMountedRef]);
 
-  useEffect(() => {
-    getAllPosts();
-  }, [getAllPosts]);
+  // useEffect(() => {
+  //   getAllPosts();
+  // }, [getAllPosts]);
 
   const handleChangeSort = (value) => {
     if (value) {
@@ -73,6 +76,7 @@ export default function PageCourses() {
     <Page title="Courses Page">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
+<<<<<<< HEAD
           <Grid item xs={8}>
             <button
               onClick={async () => {
@@ -82,11 +86,14 @@ export default function PageCourses() {
             >
               checking
             </button>
+=======
+          <Grid item xs={0} lg={8} md={8}>
+>>>>>>> 9855baed88c7b6649706d9f428ee2f4d1b9a451a
             <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />
             </Stack>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               {(!posts.length ? [...Array(12)] : posts).map((post, index) =>
                 post ? (
                   <Grid key={post.id} item xs={12} sm={6} md={4}>
@@ -96,10 +103,22 @@ export default function PageCourses() {
                   <SkeletonPostItem key={index} />
                 )
               )}
+            </Grid> */}
+
+            <Grid container spacing={3}>
+              {(!courses?.length ? [...Array(12)] : courses).map((course, index) =>
+                course ? (
+                  <Grid key={course._id} item xs={12} sm={6} md={4}>
+                    <CourseCard course={course} index={index} />
+                  </Grid>
+                ) : (
+                  <SkeletonPostItem key={index} />
+                )
+              )}
             </Grid>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={0} md={4} lg={4}>
             <CourseRightNav />
           </Grid>
         </Grid>
@@ -107,3 +126,14 @@ export default function PageCourses() {
     </Page>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const response = await getAllCourse({
+    where: { $select: ['title', 'createdAt', 'thumbnail', 'slug'] },
+  });
+  return {
+    props: {
+      courses: response.data,
+    },
+  };
+};

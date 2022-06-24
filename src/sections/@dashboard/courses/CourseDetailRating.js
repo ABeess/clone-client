@@ -1,7 +1,6 @@
 import { useState } from 'react';
 // @mui
 import { Box, Rating, Typography, Stack, LinearProgress, styled } from '@mui/material';
-// component
 // ----------------------------------------------------------------------
 
 const LinearProgressStyle = styled(LinearProgress)(({ theme }) => ({
@@ -10,9 +9,7 @@ const LinearProgressStyle = styled(LinearProgress)(({ theme }) => ({
   backgroundColor: '#fff',
 }));
 
-export default function CourseDetailRating({ post }) {
-  // const { favorite, tags, favoritePerson } = post;
-
+export default function CourseDetailRating() {
   const [value, setValue] = useState(2);
 
   return (

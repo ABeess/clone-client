@@ -11,6 +11,7 @@ import cookie from 'cookie';
 // next
 import Head from 'next/head';
 import App from 'next/app';
+import { RecoilRoot } from 'recoil';
 // utils
 import { getSettings } from '../utils/settings';
 // contexts
