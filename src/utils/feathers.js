@@ -7,7 +7,7 @@ const restClient = rest(process.env.HOST_API_KEY);
 
 class MyAuthenticationClient extends authentication.AuthenticationClient {
   async getAccessToken() {
-    return (await JSON.parse(localStorage.getItem('recoil-persist'))?.authentication?.accessToken) || '';
+    return JSON.parse(localStorage.getItem('recoil-persist'))?.authentication?.accessToken || 'a';
   }
 }
 

@@ -15,7 +15,13 @@ export default function AuthFirebaseSocial() {
       </Divider>
       <Grid container spacing={2}>
         <Grid item xs>
-          <Button fullWidth size="large" href={`http://localhost:3040/oauth/google`} color="inherit" variant="outlined">
+          <Button
+            fullWidth
+            size="large"
+            href={`${process.env.HOST_API_KEY}/oauth/google`}
+            color="inherit"
+            variant="outlined"
+          >
             <Iconify icon={'eva:google-fill'} color="#DF3E30" width={24} height={24} />
           </Button>
         </Grid>
@@ -23,7 +29,7 @@ export default function AuthFirebaseSocial() {
         <Grid item xs>
           <Button
             fullWidth
-            href={`http://localhost:3040/oauth/facebook`}
+            href={`${process.env.HOST_API_KEY}/oauth/facebook`}
             size="large"
             color="inherit"
             variant="outlined"

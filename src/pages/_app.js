@@ -25,7 +25,6 @@ import RtlLayout from '../components/RtlLayout';
 import ProgressBar from '../components/ProgressBar';
 import ThemeColorPresets from '../components/ThemeColorPresets';
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
-import { RecoilRoot } from 'recoil';
 // ----------------------------------------------------------------------
 
 MyApp.propTypes = {
