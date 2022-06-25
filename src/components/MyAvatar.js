@@ -1,5 +1,8 @@
 // hooks
 // utils
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'src/recoils/authState';
 import createAvatar from 'src/utils/createAvatar';
 //
 import Avatar from './Avatar';
@@ -7,16 +10,24 @@ import Avatar from './Avatar';
 // ----------------------------------------------------------------------
 
 export default function MyAvatar({ ...other }) {
-  const user = null;
+  const [user, setUser] = useState({});
+
+  const userState = useRecoilValue(authState);
+
+  useEffect(() => {
+    setUser(userState.user);
+  }, []);
+
+  const displayName = `${user?.lastName} ${user?.firstName}`;
 
   return (
     <Avatar
-      src={user?.photoURL}
-      alt={user?.displayName}
-      color={user?.photoURL ? 'default' : createAvatar(user?.displayName).color}
+      src={user?.profilePhoto?.url}
+      alt={displayName}
+      color={user?.profilePhoto?.url ? 'default' : createAvatar(displayName).color}
       {...other}
     >
-      {createAvatar(user?.displayName).name}
+      {createAvatar(displayName).name}
     </Avatar>
   );
 }

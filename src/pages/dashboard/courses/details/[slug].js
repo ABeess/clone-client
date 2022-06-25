@@ -26,6 +26,8 @@ import {
   CourseDetailRecent,
   CourseDetailList,
 } from 'src/sections/@dashboard/courses';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 
@@ -35,12 +37,30 @@ CourseDetail.getLayout = function getLayout(page) {
 
 // ----------------------------------------------------------------------
 
-export default function CourseDetail({ course }) {
+export default function CourseDetail() {
   const { themeStretch } = useSettings();
 
   const [recentPosts, setRecentPosts] = useState([]);
 
   const [post, setPost] = useState(null);
+
+  const {
+    query: { slug },
+  } = useRouter();
+
+  const { data } = useQuery(
+    'course-detail',
+    async () =>
+      await getOneCourse({
+        id: null,
+        where: {
+          slug,
+        },
+      }),
+    { enabled: !!slug }
+  );
+
+  const course = data?.data[0];
 
   // const getRecentPosts = useCallback(async () => {
   //   try {
@@ -125,13 +145,22 @@ export default function CourseDetail({ course }) {
 
 export const getServerSideProps = async ({ query }) => {
   const slug = query.slug;
-  const response = await getOneCourse({
-    id: null,
-    where: { slug },
-  });
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    'course-details',
+    async () =>
+      await getOneCourse({
+        id: null,
+        where: { slug },
+      }),
+    { enabled: !!slug }
+  );
+
   return {
     props: {
-      course: response.data[0],
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
