@@ -26,11 +26,9 @@ import Settings from '../components/settings';
 import RtlLayout from '../components/RtlLayout';
 import ProgressBar from '../components/ProgressBar';
 import ThemeColorPresets from '../components/ThemeColorPresets';
+import NotistackProvider from 'src/components/NotistackProvider';
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
-<<<<<<< HEAD
-=======
 import { useState } from 'react';
->>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
 // ----------------------------------------------------------------------
 
 MyApp.propTypes = {
@@ -60,9 +58,11 @@ export default function MyApp(props) {
                   <MotionLazyContainer>
                     <ThemeColorPresets>
                       <RtlLayout>
-                        <Settings />
-                        <ProgressBar />
-                        {getLayout(<Component {...pageProps} />)}
+                        <NotistackProvider>
+                          <Settings />
+                          <ProgressBar />
+                          {getLayout(<Component {...pageProps} />)}
+                        </NotistackProvider>
                       </RtlLayout>
                     </ThemeColorPresets>
                   </MotionLazyContainer>

@@ -3,12 +3,7 @@ import { orderBy } from 'lodash';
 import { useState } from 'react';
 import Page from 'src/components/Page';
 import { SkeletonPostItem } from 'src/components/skeleton';
-<<<<<<< HEAD
-import { reAuthenticate } from 'src/fetching/auth.api';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
-=======
 import { getAllCourse } from 'src/fetching/course.api';
->>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
 import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
 import { CourseCard, CourseFilter, CourseSearch } from 'src/sections/@dashboard/courses';
@@ -63,19 +58,7 @@ export default function PageCourses() {
     <Page title="Courses Page">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-<<<<<<< HEAD
-          <Grid item xs={8}>
-            <button
-              onClick={async () => {
-                const a = await reAuthenticate();
-                console.log(a);
-              }}
-            >
-              checking
-            </button>
-=======
           <Grid item xs={0} lg={8} md={8}>
->>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
             <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />

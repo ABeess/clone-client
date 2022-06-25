@@ -1,29 +1,31 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 // next
 import NextLink from 'next/link';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
+import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_AUTH } from 'src/routes/paths';
-// hooks
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
 import AuthSocial from '../AuthSocial';
+import { login, refreshToken } from 'src/fetching/auth.api';
+import { useRouter } from 'next/router';
+import { useSetRecoilState } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-  // const { login } = useAuth();
-
-  const isMountedRef = useIsMountedRef();
-
+  const router = useRouter();
+  const setAuthState = useSetRecoilState(authAtom);
+  const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -44,14 +46,24 @@ export default function LoginForm() {
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
     try {
-      // const user = await login(data);
-      // await refreshToken({ data: { _id: user?.user?._id, isAdmin: user?.user?.isAdmin } });
-      // setAuthState((prev) => ({ ...prev, isAuthenticated: true, user: user?.user, accessToken: user?.accessToken }));
+      const loginRes = await login(data);
+      if (loginRes?.code === 409) {
+        return enqueueSnackbar('Bạn đã đăng nhập bằng GG hoặc FB trước đó !', {
+          variant: 'info',
+        });
+      }
+      await refreshToken({ data: { _id: loginRes?.user._id, isAdmin: loginRes?.user.isAdmin } });
+      setAuthState((prev) => ({
+        ...prev,
+        isAuthenticated: true,
+        user: loginRes?.user,
+        accessToken: loginRes?.accessToken,
+      }));
       enqueueSnackbar('Chào mừng bạn đến với Education');
     } catch (error) {
       if (error?.code === 401) {
@@ -66,8 +78,6 @@ export default function LoginForm() {
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-          {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-
           <RHFTextField name="email" label="Email address" />
 
           <RHFTextField

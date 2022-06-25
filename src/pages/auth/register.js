@@ -1,11 +1,9 @@
-import { capitalCase } from 'change-case';
 // next
 import NextLink from 'next/link';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography, Tooltip } from '@mui/material';
+import { Box, Card, Link, Container, Typography } from '@mui/material';
 // hooks
-// import useAuth from 'src/hooks/useAuth';
 import useResponsive from 'src/hooks/useResponsive';
 // routes
 import { PATH_AUTH } from 'src/routes/paths';
@@ -64,8 +62,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
-  // const { method } = useAuth();
-
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
@@ -78,7 +74,7 @@ export default function Register() {
             <Logo />
             {smUp && (
               <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-                Already have an account? {''}
+                Already have an account?{' '}
                 <NextLink href={PATH_AUTH.login} passHref>
                   <Link variant="subtitle2">Login</Link>
                 </NextLink>
@@ -95,7 +91,7 @@ export default function Register() {
                 visibleByDefault
                 disabledEffect
                 alt="register"
-                src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_register.png"
+                src="https://minimals.cc/assets/illustrations/illustration_register.png"
               />
             </SectionStyle>
           )}
@@ -109,16 +105,6 @@ export default function Register() {
                   </Typography>
                   <Typography sx={{ color: 'text.secondary' }}>Free forever. No credit card needed.</Typography>
                 </Box>
-                <Tooltip title={capitalCase('method')}>
-                  <>
-                    <Image
-                      disabledEffect
-                      alt={'method'}
-                      src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${'method'}.png`}
-                      sx={{ width: 32, height: 32 }}
-                    />
-                  </>
-                </Tooltip>
               </Box>
 
               <RegisterForm />
@@ -127,8 +113,8 @@ export default function Register() {
                 By registering, I agree to Minimal&nbsp;
                 <Link underline="always" color="text.primary" href="#">
                   Terms of Service
-                </Link>
-                {''}and{''}
+                </Link>{' '}
+                and{' '}
                 <Link underline="always" color="text.primary" href="#">
                   Privacy Policy
                 </Link>

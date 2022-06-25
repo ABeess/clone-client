@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Box, Link, Typography, Avatar } from '@mui/material';
 import { useRecoilValue } from 'recoil';
-import { authState } from 'src/recoils/authState';
+import { authAtom } from 'src/recoils/authAtom';
 import MyAvatar from 'src/components/MyAvatar';
 
 // ----------------------------------------------------------------------
@@ -26,11 +26,7 @@ NavbarAccount.propTypes = {
 };
 
 export default function NavbarAccount({ isCollapse }) {
-  const { user } = useRecoilValue(authState);
-
-  const {
-    profilePhoto: { url },
-  } = user;
+  const { user } = useRecoilValue(authAtom);
 
   return (
     <Link underline="none" color="inherit">

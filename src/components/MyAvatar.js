@@ -2,7 +2,7 @@
 // utils
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { authState } from 'src/recoils/authState';
+import { authAtom } from 'src/recoils/authAtom';
 import createAvatar from 'src/utils/createAvatar';
 //
 import Avatar from './Avatar';
@@ -12,7 +12,7 @@ import Avatar from './Avatar';
 export default function MyAvatar({ ...other }) {
   const [user, setUser] = useState({});
 
-  const userState = useRecoilValue(authState);
+  const userState = useRecoilValue(authAtom);
 
   useEffect(() => {
     setUser(userState.user);

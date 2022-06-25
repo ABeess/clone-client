@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // next
 import NextLink from 'next/link';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
 // components
-import MenuPopover from '../../../components/MenuPopover';
-import { IconButtonAnimate } from '../../../components/animate';
-import { PATH_DASHBOARD } from 'src/routes/paths';
-import { useRecoilValue } from 'recoil';
-import { authState } from 'src/recoils/authState';
-import Avatar from 'src/components/Avatar';
+import MenuPopover from 'src/components/MenuPopover';
+import { IconButtonAnimate } from 'src/components/animate';
+import { PATH_AUTH, PATH_DASHBOARD } from 'src/routes/paths';
+import { useRecoilState } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
 import MyAvatar from 'src/components/MyAvatar';
-
+import { logout, removeRefreshToken } from 'src/fetching/auth.api';
+import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -34,15 +35,10 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
-  const [user, setUser] = useState({});
-
-  const userState = useRecoilValue(authState);
-
-  useEffect(() => {
-    setUser(userState.user);
-  }, []);
-  // const user = userState?.user;
-
+  const router = useRouter();
+  const [authState, setAuthState] = useRecoilState(authAtom);
+  const { user } = authState;
+  const { enqueueSnackbar } = useSnackbar();
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -50,7 +46,18 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
-
+  const handleLogout = async () => {
+    try {
+      await logout();
+      await removeRefreshToken(user?._id);
+      setAuthState((prev) => ({ ...prev, isAuthenticated: false, user: {} }));
+      router.replace(PATH_AUTH.login);
+      enqueueSnackbar(`Hẹn gặp lại ${user?.firstName} ${user?.lastName}`, { variant: 'info' });
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar('Lỗi hệ thống khi đăng xuất', { variant: 'error' });
+    }
+  };
   return (
     <>
       <IconButtonAnimate
@@ -70,7 +77,6 @@ export default function AccountPopover() {
           }),
         }}
       >
-        {/* <div>{user && <Avatar src={user?.profilePhoto?.url} />}</div> */}
         <MyAvatar />
       </IconButtonAnimate>
 
@@ -111,7 +117,9 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem sx={{ m: 1 }}>Logout</MenuItem>
+        <MenuItem sx={{ m: 1 }} onClick={handleLogout}>
+          Logout
+        </MenuItem>
       </MenuPopover>
     </>
   );

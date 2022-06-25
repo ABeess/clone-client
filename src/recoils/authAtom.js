@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import persistAtom from 'src/utils/recoilPersist';
 
-export const authState = atom({
+export const authAtom = atom({
   key: 'authentication',
   default: {
     isAuthenticated: false,

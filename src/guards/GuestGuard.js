@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 // next
 import { useRouter } from 'next/router';
-// hooks
 // routes
 import { PATH_DASHBOARD } from '../routes/paths';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
 
 // ----------------------------------------------------------------------
 
@@ -13,16 +14,16 @@ GuestGuard.propTypes = {
 };
 
 export default function GuestGuard({ children }) {
-  // const { push } = useRouter();
+  const { push } = useRouter();
 
-  // const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useRecoilValue(authAtom);
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     push(PATH_DASHBOARD.root);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      push(PATH_DASHBOARD.courses.list);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   return <>{children}</>;
 }

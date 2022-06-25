@@ -4,24 +4,22 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Alert } from '@mui/material';
+import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// hooks
-// import useAuth from 'src/hooks/useAuth';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField } from 'src/components/hook-form';
+import { useRouter } from 'next/router';
+import { PATH_AUTH } from 'src/routes/paths';
+import { useSnackbar } from 'notistack';
+import { register } from 'src/fetching/auth.api';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-  // const { register } = useAuth();
-
-  const isMountedRef = useIsMountedRef();
-
   const [showPassword, setShowPassword] = useState(false);
-
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
@@ -30,10 +28,10 @@ export default function RegisterForm() {
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    firstName: 'Quang',
+    lastName: 'Nguyen',
+    email: 'quang.nv212@gmail.com',
+    password: 'nguyenquang123',
   };
 
   const methods = useForm({
@@ -42,30 +40,26 @@ export default function RegisterForm() {
   });
 
   const {
-    reset,
-
-    setError,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
     try {
-      // await register(data.email, data.password, data.firstName, data.lastName);
+      const res = await register({ data, checking: true });
+      if (res?.code) return enqueueSnackbar(res?.message, { variant: 'error' });
+      // await createVerifyCodeByEmail(data);
+      // setAuthState((prev) => ({ ...prev, user: data }));
+      router.push(PATH_AUTH.login);
+      enqueueSnackbar('Tạo mới người dùng thành công! Hãy bắt đầu ngay!');
     } catch (error) {
-      console.error(error);
-      reset();
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message });
-      }
+      enqueueSnackbar(error?.message || 'Lỗi hệ thống', { variant: 'error' });
     }
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="firstName" label="First name" />
           <RHFTextField name="lastName" label="Last name" />
