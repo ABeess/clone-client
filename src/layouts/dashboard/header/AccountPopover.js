@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // next
 import NextLink from 'next/link';
 // @mui
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar } from '@mui/material';
+import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
 // components
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'src/recoils/authState';
+import Avatar from 'src/components/Avatar';
+import MyAvatar from 'src/components/MyAvatar';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +22,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Profile',
-    linkTo: '/',
+    linkTo: PATH_DASHBOARD.user.profile,
   },
   {
     label: 'Settings',
@@ -29,6 +34,14 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [user, setUser] = useState({});
+
+  const userState = useRecoilValue(authState);
+
+  useEffect(() => {
+    setUser(userState.user);
+  }, []);
+  // const user = userState?.user;
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -57,7 +70,8 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_5.jpg" alt="Rayan Moran" />
+        {/* <div>{user && <Avatar src={user?.profilePhoto?.url} />}</div> */}
+        <MyAvatar />
       </IconButtonAnimate>
 
       <MenuPopover
@@ -76,10 +90,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            Rayan Moran
+            {`${user?.firstName} ${user?.lastName}`}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            rayan.moran@gmail.com
+            {user?.email}
           </Typography>
         </Box>
 

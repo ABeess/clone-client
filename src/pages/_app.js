@@ -12,6 +12,8 @@ import cookie from 'cookie';
 import Head from 'next/head';
 import App from 'next/app';
 import { RecoilRoot } from 'recoil';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 // utils
 import { getSettings } from '../utils/settings';
 // contexts
@@ -25,6 +27,10 @@ import RtlLayout from '../components/RtlLayout';
 import ProgressBar from '../components/ProgressBar';
 import ThemeColorPresets from '../components/ThemeColorPresets';
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
+<<<<<<< HEAD
+=======
+import { useState } from 'react';
+>>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
 // ----------------------------------------------------------------------
 
 MyApp.propTypes = {
@@ -38,27 +44,34 @@ export default function MyApp(props) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <RecoilRoot>
-        <CollapseDrawerProvider>
-          <SettingsProvider defaultSettings={settings}>
-            <ThemeProvider>
-              <MotionLazyContainer>
-                <ThemeColorPresets>
-                  <RtlLayout>
-                    <Settings />
-                    <ProgressBar />
-                    {getLayout(<Component {...pageProps} />)}
-                  </RtlLayout>
-                </ThemeColorPresets>
-              </MotionLazyContainer>
-            </ThemeProvider>
-          </SettingsProvider>
-        </CollapseDrawerProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <CollapseDrawerProvider>
+              <SettingsProvider defaultSettings={settings}>
+                <ThemeProvider>
+                  <MotionLazyContainer>
+                    <ThemeColorPresets>
+                      <RtlLayout>
+                        <Settings />
+                        <ProgressBar />
+                        {getLayout(<Component {...pageProps} />)}
+                      </RtlLayout>
+                    </ThemeColorPresets>
+                  </MotionLazyContainer>
+                </ThemeProvider>
+              </SettingsProvider>
+            </CollapseDrawerProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Hydrate>
+        </QueryClientProvider>
       </RecoilRoot>
     </>
   );

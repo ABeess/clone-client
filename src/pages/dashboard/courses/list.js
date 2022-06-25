@@ -1,17 +1,20 @@
 import { Container, Grid, Stack } from '@mui/material';
 import { orderBy } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import Page from 'src/components/Page';
 import { SkeletonPostItem } from 'src/components/skeleton';
+<<<<<<< HEAD
 import { reAuthenticate } from 'src/fetching/auth.api';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
+=======
+import { getAllCourse } from 'src/fetching/course.api';
+>>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
 import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
 import { CourseCard, CourseFilter, CourseSearch } from 'src/sections/@dashboard/courses';
 import CourseRightNav from 'src/sections/@dashboard/courses/CourseRightNav';
-import axios from 'src/utils/axios';
 // layouts
-
+import { dehydrate, QueryClient, useQuery } from 'react-query';
 // ----------------------------------------------------------------------
 const SORT_OPTIONS = [
   { value: 'latest', label: 'Latest' },
@@ -35,32 +38,20 @@ const applySort = (posts, sortBy) => {
 };
 // ----------------------------------------------------------------------
 
-export default function PageCourses({ courses }) {
+export default function PageCourses() {
   const { themeStretch } = useSettings();
-
-  // const isMountedRef = useIsMountedRef();
-
-  // const [posts, setPosts] = useState([]);
 
   const [filters, setFilters] = useState('latest');
 
   // const sortedPosts = applySort(posts, filters);
 
-  // const getAllPosts = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get('/api/blog/posts/all');
-
-  //     if (isMountedRef.current) {
-  //       setPosts(response.data.posts);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, [isMountedRef]);
-
-  // useEffect(() => {
-  //   getAllPosts();
-  // }, [getAllPosts]);
+  const {
+    data: { data: courses },
+  } = useQuery('courses', () =>
+    getAllCourse({
+      where: { $select: ['title', 'createdAt', 'thumbnail', 'slug'] },
+    })
+  );
 
   const handleChangeSort = (value) => {
     if (value) {
@@ -72,6 +63,7 @@ export default function PageCourses({ courses }) {
     <Page title="Courses Page">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
+<<<<<<< HEAD
           <Grid item xs={8}>
             <button
               onClick={async () => {
@@ -81,6 +73,9 @@ export default function PageCourses({ courses }) {
             >
               checking
             </button>
+=======
+          <Grid item xs={0} lg={8} md={8}>
+>>>>>>> 9310d36e77a2eabd0856cdc43a509950da145eaa
             <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
               <CourseSearch />
               <CourseFilter query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />
@@ -119,13 +114,17 @@ export default function PageCourses({ courses }) {
   );
 }
 
-export const getServerSideProps = async (context) => {
-  const response = await getAllCourse({
-    where: { $select: ['title', 'createdAt', 'thumbnail', 'slug'] },
-  });
+export const getServerSideProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('courses', () =>
+    getAllCourse({
+      where: { $select: ['title', 'createdAt', 'thumbnail', 'slug'] },
+    })
+  );
+
   return {
     props: {
-      courses: response.data,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

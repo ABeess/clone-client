@@ -97,7 +97,7 @@ export default function LoginForm() {
           Login
         </LoadingButton>
       </FormProvider>
-      <AuthSocial />
+      <AuthSocial divider />
     </>
   );
 }

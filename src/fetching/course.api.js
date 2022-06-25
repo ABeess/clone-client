@@ -10,11 +10,19 @@ export const getAllCourse = async ({ limit, page = 0, where }) => {
   });
   return response;
 };
-export const getOneCourse = async ({ id, where }) => {
-  const response = await app.service('course-list').get(id, {
+// export const getOneCourse = async ({ id, where }) => {
+//   const response = await app.service('course-list').get(id, {
+//     query: {
+//       ...where,
+//     },
+//   });
+//   return response;
+// };
+
+export const getOneCourse = ({ id, where }) => {
+  return app.service('course-list').get(id, {
     query: {
       ...where,
     },
   });
-  return response;
 };

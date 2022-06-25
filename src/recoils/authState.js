@@ -5,8 +5,8 @@ export const authState = atom({
   key: 'authentication',
   default: {
     isAuthenticated: false,
-    user: {},
     accessToken: '',
+    user: {},
   },
   effects_UNSTABLE: [persistAtom],
 });
