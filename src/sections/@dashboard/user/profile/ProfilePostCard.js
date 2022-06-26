@@ -26,6 +26,8 @@ import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
 import MyAvatar from '../../../../components/MyAvatar';
 import EmojiPicker from '../../../../components/EmojiPicker';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +37,10 @@ ProfilePostCard.propTypes = {
 
 export default function ProfilePostCard({ post }) {
   const commentInputRef = useRef(null);
+
+  const { user } = useRecoilValue(authAtom);
+
+  const displayName = `${user?.firstName} ${user?.lastName}`;
 
   const fileInputRef = useRef(null);
 
@@ -73,11 +79,11 @@ export default function ProfilePostCard({ post }) {
       <CardHeader
         disableTypography
         avatar={<MyAvatar />}
-        title={
-          <Link variant="subtitle2" color="text.primary">
-            {user?.displayName}
-          </Link>
-        }
+        // title={
+        //   <Link variant="subtitle2" color="text.primary">
+        //     {displayName}
+        //   </Link>
+        // }
         subheader={
           <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>
             {fDate(post.createdAt)}
@@ -91,9 +97,9 @@ export default function ProfilePostCard({ post }) {
       />
 
       <Stack spacing={3} sx={{ p: 3 }}>
-        <Typography>{post.message}</Typography>
+        <Typography>{post?.message}</Typography>
 
-        <Image alt="post media" src={post.media} ratio="16/9" sx={{ borderRadius: 1 }} />
+        <Image alt="post media" src={post?.media} ratio="16/9" sx={{ borderRadius: 1 }} />
 
         <Stack direction="row" alignItems="center">
           <FormControlLabel
@@ -111,8 +117,8 @@ export default function ProfilePostCard({ post }) {
             sx={{ minWidth: 72, mr: 0 }}
           />
           <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
-            {post.personLikes.map((person) => (
-              <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
+            {post?.personLikes.map((person) => (
+              <Avatar key={person?.name} alt={person?.name} src={person?.avatarUrl} />
             ))}
           </AvatarGroup>
           <Box sx={{ flexGrow: 1 }} />
@@ -126,9 +132,9 @@ export default function ProfilePostCard({ post }) {
 
         {hasComments && (
           <Stack spacing={1.5}>
-            {post.comments.map((comment) => (
-              <Stack key={comment.id} direction="row" spacing={2}>
-                <Avatar alt={comment.author.name} src={comment.author.avatarUrl} />
+            {post?.comments.map((comment) => (
+              <Stack key={comment?.id} direction="row" spacing={2}>
+                <Avatar alt={comment?.author?.name} src={comment?.author?.avatarUrl} />
                 <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: 'background.neutral' }}>
                   <Stack
                     direction={{ xs: 'column', sm: 'row' }}
@@ -136,7 +142,7 @@ export default function ProfilePostCard({ post }) {
                     justifyContent="space-between"
                     sx={{ mb: 0.5 }}
                   >
-                    <Typography variant="subtitle2">{comment.author.name}</Typography>
+                    <Typography variant="subtitle2">{comment?.author?.name}</Typography>
                     <Typography variant="caption" sx={{ color: 'text.disabled' }}>
                       {fDate(comment.createdAt)}
                     </Typography>

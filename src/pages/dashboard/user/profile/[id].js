@@ -59,7 +59,41 @@ const _userAbout = {
   school: 'Nikolaus - Leuschke',
 };
 
-const _userFeeds = [];
+const _userFeeds = [
+  {
+    id: 1,
+    isLike: true,
+    personLikes: [
+      {
+        name: 'name',
+        avatarUrl: 'https://minimal-assets-api-dev.vercel.app/assets/images/feeds/feed_1.jpg',
+      },
+    ],
+    message: 'Assumenda nam repudiandae rerum fugiat vel maxime.',
+    createdAt: '2022-06-26T09:28:00.095+00:00',
+    media: 'https://minimal-assets-api-dev.vercel.app/assets/images/feeds/feed_1.jpg',
+    comments: [
+      {
+        id: 1,
+        author: {
+          name: 'author',
+          avatar: 'https://minimal-assets-api-dev.vercel.app/assets/images/feeds/feed_1.jpg',
+        },
+        createdAt: '2022-06-26T09:28:00.095+00:00',
+        message: 'comment message',
+      },
+      {
+        id: 2,
+        author: {
+          name: 'author',
+          avatar: 'https://minimal-assets-api-dev.vercel.app/assets/images/feeds/feed_1.jpg',
+        },
+        createdAt: '2022-06-26T09:28:00.095+00:00',
+        message: 'comment message',
+      },
+    ],
+  },
+];
 
 export default function UserProfile() {
   const { themeStretch } = useSettings();

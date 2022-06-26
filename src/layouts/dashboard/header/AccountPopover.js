@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // next
 import NextLink from 'next/link';
 // @mui
@@ -37,7 +37,10 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const router = useRouter();
   const [authState, setAuthState] = useRecoilState(authAtom);
-  const { user } = authState;
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    setUser(authState.user);
+  }, []);
   const { enqueueSnackbar } = useSnackbar();
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

@@ -23,6 +23,7 @@ import NotificationsPopover from './NotificationsPopover';
 import { useRecoilValue } from 'recoil';
 import { authAtom } from 'src/recoils/authAtom';
 import { PATH_AUTH } from 'src/routes/paths';
+import { useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +67,14 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const { isAuthenticated } = useRecoilValue(authAtom);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const authState = useRecoilValue(authAtom);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsAuthenticated(authState.isAuthenticated);
+    }
+  }, []);
 
   const linkTo = PATH_AUTH.login;
 

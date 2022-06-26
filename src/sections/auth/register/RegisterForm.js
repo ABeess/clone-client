@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment } from '@mui/material';
+import { Stack, IconButton, InputAdornment, styled, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from 'src/components/Iconify';
-import { FormProvider, RHFTextField } from 'src/components/hook-form';
+import { FormProvider, RHFRadioGroup, RHFTextField } from 'src/components/hook-form';
 import { useRouter } from 'next/router';
 import { PATH_AUTH } from 'src/routes/paths';
 import { useSnackbar } from 'notistack';
@@ -16,6 +16,11 @@ import { register } from 'src/fetching/auth.api';
 
 // ----------------------------------------------------------------------
 
+const LabelStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle2,
+  color: theme.palette.text.secondary,
+  lineHeight: '40px',
+}));
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
@@ -23,15 +28,19 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
+    gender: Yup.string().required('Gender is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
+    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
   });
 
   const defaultValues = {
     firstName: 'Quang',
     lastName: 'Nguyen',
+    gender: 'male',
     email: 'quang.nv212@gmail.com',
     password: 'nguyenquang123',
+    confirmPassword: 'nguyenquang123',
   };
 
   const methods = useForm({
@@ -71,11 +80,38 @@ export default function RegisterForm() {
           <RHFTextField name="lastName" label="Last name" />
         </Stack>
 
+        <Stack direction="row" spacing={2}>
+          <LabelStyle>Gender</LabelStyle>
+          <RHFRadioGroup
+            name="gender"
+            options={['male', 'female']}
+            sx={{
+              '& .MuiFormControlLabel-root': { mr: 4 },
+              textTransform: 'capitalize',
+            }}
+          />
+        </Stack>
+
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
           name="password"
           label="Password"
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
+                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <RHFTextField
+          name="confirmPassword"
+          label="Confirm Password"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

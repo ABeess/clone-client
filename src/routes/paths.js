@@ -13,7 +13,6 @@ export const PATH_AUTH = {
   registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),
   verify: path(ROOTS_AUTH, '/verify'),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
-  redirectAuth: path(ROOTS_AUTH, '/redirect-auth'),
 };
 
 export const PATH_PAGE = {
