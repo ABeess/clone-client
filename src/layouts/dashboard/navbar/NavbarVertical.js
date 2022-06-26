@@ -21,6 +21,8 @@ import navConfig from './NavConfig';
 import NavbarDocs from './NavbarDocs';
 import NavbarAccount from './NavbarAccount';
 import CollapseButton from './CollapseButton';
+import { authAtom } from 'src/recoils/authAtom';
+import { useRecoilValue } from 'recoil';
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +48,8 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useRouter();
 
   const isDesktop = useResponsive('up', 'lg');
+
+  const { isAuthenticated } = useRecoilValue(authAtom);
 
   const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
     useCollapseDrawer();
@@ -82,7 +86,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
           )}
         </Stack>
 
-        <NavbarAccount isCollapse={isCollapse} />
+        {isAuthenticated && <NavbarAccount isCollapse={isCollapse} />}
       </Stack>
 
       <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />

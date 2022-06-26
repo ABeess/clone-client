@@ -47,7 +47,10 @@ export default function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       const res = await register({ data, checking: true });
-      if (res?.code) return enqueueSnackbar(res?.message, { variant: 'error' });
+      if (res?.code) {
+        return enqueueSnackbar(res?.message, { variant: 'error' });
+      }
+
       // await createVerifyCodeByEmail(data);
       // setAuthState((prev) => ({ ...prev, user: data }));
       router.push(PATH_AUTH.login);

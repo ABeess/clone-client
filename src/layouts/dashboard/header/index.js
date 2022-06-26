@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+import NextLink from 'next/link';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, Button } from '@mui/material';
 // hooks
 import useOffSetTop from '../../../hooks/useOffSetTop';
 import useResponsive from '../../../hooks/useResponsive';
@@ -19,6 +20,9 @@ import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import ContactsPopover from './ContactsPopover';
 import NotificationsPopover from './NotificationsPopover';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
+import { PATH_AUTH } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +66,10 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
 
   const isDesktop = useResponsive('up', 'lg');
 
+  const { isAuthenticated } = useRecoilValue(authAtom);
+
+  const linkTo = PATH_AUTH.login;
+
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset} verticalLayout={verticalLayout}>
       <Toolbar
@@ -82,10 +90,18 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <LanguagePopover />
-          <NotificationsPopover />
-          <ContactsPopover />
-          <AccountPopover />
+          {isAuthenticated ? (
+            <>
+              <LanguagePopover />
+              <NotificationsPopover />
+              <ContactsPopover />
+              <AccountPopover />
+            </>
+          ) : (
+            <NextLink href={linkTo}>
+              <Button variant="contained">Login</Button>
+            </NextLink>
+          )}
         </Stack>
       </Toolbar>
     </RootStyle>

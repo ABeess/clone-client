@@ -18,7 +18,7 @@ export default function Index() {
           localStorage.setItem('recoil-persist', JSON.stringify({ authentication: { accessToken: token } }));
           const { isAdmin, sub } = decode(token);
           const [userData] = await Promise.all([reAuthenticate(), refreshToken({ data: { isAdmin, _id: sub } })]);
-          setAuthState((prev) => ({ ...prev, user: userData?.user }));
+          setAuthState((prev) => ({ ...prev, user: userData?.user, isAuthenticated: true }));
         }
       }
       if (router.pathname == '/') {

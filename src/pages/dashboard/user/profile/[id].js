@@ -50,6 +50,17 @@ UserProfile.getLayout = function getLayout(page) {
 
 // ----------------------------------------------------------------------
 
+const _userAbout = {
+  quote: 'Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes. Topping cake wafer..',
+  country: 'Madagascar',
+  email: 'ashlynn_ohara62@gmail.com',
+  role: 'Manager',
+  company: 'Gleichner, Mueller and Tromp',
+  school: 'Nikolaus - Leuschke',
+};
+
+const _userFeeds = [];
+
 export default function UserProfile() {
   const { themeStretch } = useSettings();
 
@@ -67,7 +78,7 @@ export default function UserProfile() {
     {
       value: 'profile',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      // component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
+      component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
     },
     {
       value: 'followers',
