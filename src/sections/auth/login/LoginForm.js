@@ -53,7 +53,7 @@ export default function LoginForm() {
     try {
       const loginRes = await login(data);
       if (loginRes?.code === 409) {
-        return enqueueSnackbar('Bạn đã đăng nhập bằng GG hoặc FB trước đó !', {
+        return enqueueSnackbar('Bạn đã đăng nhập bằng GG hoặc FB trước đó!', {
           variant: 'info',
         });
       }
