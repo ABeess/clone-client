@@ -30,3 +30,22 @@ export const reAuthenticate = () => {
 export const logout = () => {
   return app.logout();
 };
+
+// ------------------------------
+export const updatetPostUser = (id, data) => {
+  return app.service('users').patch(id, { $push: { post: data } });
+};
+
+// export const getOneUser = ({ id, where }) => {
+//   return app.service('users').get(id, {
+//     query: {
+//       ...where,
+//     },
+//   });
+// };
+
+export const getOneUser = ({ id, where }) => {
+  return app.service('users').get(id, {
+    query: { ...where },
+  });
+};

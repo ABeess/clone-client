@@ -35,7 +35,8 @@ ProfilePostCard.propTypes = {
   post: PropTypes.object,
 };
 
-export default function ProfilePostCard({ post }) {
+export default function ProfilePostCard({ posts }) {
+  console.log('ProfilePostCard :: post', posts);
   const commentInputRef = useRef(null);
 
   const { user } = useRecoilValue(authAtom);
@@ -44,13 +45,13 @@ export default function ProfilePostCard({ post }) {
 
   const fileInputRef = useRef(null);
 
-  const [isLiked, setLiked] = useState(post.isLiked);
+  // const [isLiked, setLiked] = useState(post.isLiked);
 
-  const [likes, setLikes] = useState(post.personLikes.length);
+  // const [likes, setLikes] = useState(post.personLikes.length);
 
   const [message, setMessage] = useState('');
 
-  const hasComments = post.comments.length > 0;
+  // const hasComments = post.comments.length > 0;
 
   const handleLike = () => {
     setLiked(true);
@@ -75,62 +76,64 @@ export default function ProfilePostCard({ post }) {
   };
 
   return (
-    <Card>
-      <CardHeader
-        disableTypography
-        avatar={<MyAvatar />}
-        // title={
-        //   <Link variant="subtitle2" color="text.primary">
-        //     {displayName}
-        //   </Link>
-        // }
-        subheader={
-          <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>
-            {fDate(post.createdAt)}
-          </Typography>
-        }
-        action={
-          <IconButton>
-            <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
-          </IconButton>
-        }
-      />
+    <>
+      {posts?.map((post) => (
+        <Card key={post._id}>
+          <CardHeader
+            disableTypography
+            avatar={<MyAvatar />}
+            // title={
+            //   <Link variant="subtitle2" color="text.primary">
+            //     {displayName}
+            //   </Link>
+            // }
+            subheader={
+              <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>
+                {/* {fDate(post.createdAt)} */}
+              </Typography>
+            }
+            action={
+              <IconButton>
+                <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+              </IconButton>
+            }
+          />
 
-      <Stack spacing={3} sx={{ p: 3 }}>
-        <Typography>{post?.message}</Typography>
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <Typography>{post?.content}</Typography>
 
-        <Image alt="post media" src={post?.media} ratio="16/9" sx={{ borderRadius: 1 }} />
+            <Image alt="post media" src={post?.thumbnail?.url} ratio="16/9" sx={{ borderRadius: 1 }} />
 
-        <Stack direction="row" alignItems="center">
-          <FormControlLabel
+            <Stack direction="row" alignItems="center">
+              {/* <FormControlLabel
             control={
               <Checkbox
                 size="small"
                 color="error"
-                checked={isLiked}
+                // checked={isLiked}
                 icon={<Iconify icon={'eva:heart-fill'} />}
                 checkedIcon={<Iconify icon={'eva:heart-fill'} />}
-                onChange={isLiked ? handleUnlike : handleLike}
+                // onChange={isLiked ? handleUnlike : handleLike}
               />
             }
-            label={fShortenNumber(likes)}
+            // label={fShortenNumber(likes)}
             sx={{ minWidth: 72, mr: 0 }}
-          />
-          <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
+          /> */}
+              {/* <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
             {post?.personLikes.map((person) => (
               <Avatar key={person?.name} alt={person?.name} src={person?.avatarUrl} />
             ))}
-          </AvatarGroup>
-          <Box sx={{ flexGrow: 1 }} />
-          <IconButton onClick={handleClickComment}>
-            <Iconify icon={'eva:message-square-fill'} width={20} height={20} />
-          </IconButton>
-          <IconButton>
-            <Iconify icon={'eva:share-fill'} width={20} height={20} />
-          </IconButton>
-        </Stack>
+          </AvatarGroup> */}
+              <Box sx={{ flexGrow: 1 }} />
+              <IconButton onClick={handleClickComment}>
+                <Iconify icon={'eva:message-square-fill'} width={20} height={20} />
+              </IconButton>
+              <IconButton>
+                <Iconify icon={'eva:share-fill'} width={20} height={20} />
+              </IconButton>
+            </Stack>
 
-        {hasComments && (
+            {/* {hasComments && (
           <Stack spacing={1.5}>
             {post?.comments.map((comment) => (
               <Stack key={comment?.id} direction="row" spacing={2}>
@@ -154,42 +157,44 @@ export default function ProfilePostCard({ post }) {
               </Stack>
             ))}
           </Stack>
-        )}
+        )} */}
 
-        <Stack direction="row" alignItems="center">
-          <MyAvatar />
-          <TextField
-            fullWidth
-            size="small"
-            value={message}
-            inputRef={commentInputRef}
-            placeholder="Write a comment…"
-            onChange={(event) => handleChangeMessage(event.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton size="small" onClick={handleClickAttach}>
-                    <Iconify icon={'ic:round-add-photo-alternate'} width={24} height={24} />
-                  </IconButton>
-                  <EmojiPicker alignRight value={message} setValue={setMessage} />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              ml: 2,
-              mr: 1,
-              '& fieldset': {
-                borderWidth: `1px !important`,
-                borderColor: (theme) => `${theme.palette.grey[500_32]} !important`,
-              },
-            }}
-          />
-          <IconButton>
-            <Iconify icon={'ic:round-send'} width={24} height={24} />
-          </IconButton>
-          <input type="file" ref={fileInputRef} style={{ display: 'none' }} />
-        </Stack>
-      </Stack>
-    </Card>
+            <Stack direction="row" alignItems="center">
+              <MyAvatar />
+              <TextField
+                fullWidth
+                size="small"
+                value={message}
+                inputRef={commentInputRef}
+                placeholder="Write a comment…"
+                onChange={(event) => handleChangeMessage(event.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={handleClickAttach}>
+                        <Iconify icon={'ic:round-add-photo-alternate'} width={24} height={24} />
+                      </IconButton>
+                      <EmojiPicker alignRight value={message} setValue={setMessage} />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  ml: 2,
+                  mr: 1,
+                  '& fieldset': {
+                    borderWidth: `1px !important`,
+                    borderColor: (theme) => `${theme.palette.grey[500_32]} !important`,
+                  },
+                }}
+              />
+              <IconButton>
+                <Iconify icon={'ic:round-send'} width={24} height={24} />
+              </IconButton>
+              <input type="file" ref={fileInputRef} style={{ display: 'none' }} />
+            </Stack>
+          </Stack>
+        </Card>
+      ))}
+    </>
   );
 }

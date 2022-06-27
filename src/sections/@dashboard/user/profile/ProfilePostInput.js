@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 // @mui
 import { Box, Card, Button, TextField, IconButton, Stack } from '@mui/material';
 // components
@@ -10,20 +10,30 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDropzone } from 'react-dropzone';
 import { LoadingButton } from '@mui/lab';
+import { cloudinaryUpload } from 'src/fetching/upload.api';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from 'src/recoils/authAtom';
+import { createPost } from 'src/fetching/post.api';
+import { updatetPostUser } from 'src/fetching/auth.api';
+import { useQueryClient } from 'react-query';
 
 // ----------------------------------------------------------------------
 
 export default function ProfilePostInput() {
   const fileInputRef = useRef(null);
 
+  const { user } = useRecoilValue(authAtom);
+
+  const queryClient = useQueryClient();
+
   const NewPostSchema = Yup.object().shape({
     content: Yup.string().required('Content is required'),
-    image: Yup.mixed().test('required', 'Image is required', (value) => value !== ''),
+    thumbnail: Yup.mixed().test('required', 'Image is required', (value) => value !== ''),
   });
 
   const defaultValues = {
-    content: '',
-    image: '',
+    content: 'Assumenda nam repudiandae rerum fugiat vel maxime.',
+    thumbnail: '',
   };
 
   const methods = useForm({
@@ -34,6 +44,7 @@ export default function ProfilePostInput() {
   const {
     setValue,
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = methods;
 
@@ -43,7 +54,7 @@ export default function ProfilePostInput() {
 
       if (file) {
         setValue(
-          'image',
+          'thumbnail',
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -54,12 +65,30 @@ export default function ProfilePostInput() {
   );
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append('file', data.thumbnail);
+    const uploadData = await cloudinaryUpload(formData);
+    const newPost = await createPost({ ...data, thumbnail: uploadData, users: user._id });
+    const newUser = await updatetPostUser(user._id, newPost._id);
+    queryClient.invalidateQueries('posts');
+    reset(defaultValues);
   };
 
   const handleAttach = () => {
     fileInputRef.current?.click();
   };
+
+  useEffect(() => {
+    // const fetching = async () => {
+    //   // const res = await getAllPost({ where: { $populate: ['users'], $select: ['content'] } });
+    //   // console.log('fetching :: res', res);
+    //   // const res = await getAllPost({
+    //   //   where: { users: user._id },
+    //   // });
+    //   // console.log('fetching :: res', res);
+    // };
+    // fetching();
+  }, []);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +107,7 @@ export default function ProfilePostInput() {
               },
             }}
           />
-          <RHFUploadSingleFile name="image" accept="image/*" maxSize={3145728} onDrop={handleDrop} />
+          <RHFUploadSingleFile name="thumbnail" accept="image/*" maxSize={3145728} onDrop={handleDrop} />
         </Stack>
         <Box
           sx={{
@@ -106,3 +135,13 @@ export default function ProfilePostInput() {
     </FormProvider>
   );
 }
+
+// export const getServerSideProps = async () => {
+//   const res = await getAllPost();
+//   const post = res.data;
+//   return {
+//     props: {
+//       post,
+//     },
+//   };
+// };
